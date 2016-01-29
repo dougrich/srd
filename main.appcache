@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+# {version}
+
+./client.min.js
+./static/srd.js
+./static/icomoon.eot
+./static/icomoon.svg
+./static/icomoon.ttf
+./static/icomoon.woff
+./static/react-dom.min.js
+./static/react.min.js
+./static/icon.png

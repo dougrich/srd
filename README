@@ -1,0 +1,71 @@
+# srd
+
+## Overview
+
+### What is an SRD?
+
+An SRD is a **S**ystem **R**eference **D**ocument. The original SRD is the d20 system that was released by Wizards of the Coast under the Open Game License. It encouraged 3rd party publishers to create content for the system, and new players to explore more about the system.
+
+Since then, a number of other systems have released SRDs; notably Paizo's Pathfinder and Wizard of the Coast's 5th Edition.
+
+### What is this site then?
+
+Along with textual SRDs, a number of websites have been created to make it easier to index, search, and crawl the SRD. This is one of them.
+
+### Why do we need another one?
+
+SRDs have been inspirational to me and have made my career as a DM better. As I work in websites professionally, I wanted to attempt to create a useful addition to the catalog of SRD tools available.
+
+Specifically, I want to:
+
+* Fully support offline usage
+* Fully support mobile users
+* Emphasize clean, simple design
+* Minimize ad presence
+* Maximize usability
+
+## Contributing to the articles
+
+## Contributing to the code
+
+### Setting up a development environment
+
+Ensure you have node installed.
+
+#### Install Gulp
+
+    npm install -g gulp
+    
+#### Install dependencies
+
+    npm install
+    
+#### Run the develop command
+
+    gulp develop
+    
+#### Point your browser to file://...//dist/index.html
+
+### Wat
+
+Yes. There are no back-end components at all. For this experience to be truely optimal, it needs to be able to run completely offline. In production, the file is served up using nginx: if you want to set that up on your box, feel free, but it is entirely optional.
+
+## Roadmap
+
+1. Search improvements
+
+Search needs to be snappy and fast.
+
+2. AppCache retirement
+
+Service Workers are replacing AppCache. However, Service Workers have much much less support than AppCache, especially in the two target devices of Android and iPhone. Development of service workers is occuring in the service-worker branch.
+
+3. Bigger offline cache
+
+AppCache is limited in size and stability. Use a better offline loader.
+
+4. Selection based on search
+
+## Contributing
+
+Submit a pull request with your changes. 
