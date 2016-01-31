@@ -52,6 +52,6 @@ At any time you can click the icon to check for any new changes.
 
 ## Feedback
 
-Please contact [admin@dougrich.net](mailto:admin@dougrich.net) with any questions, feedback, or suggestions.
+Please contact [admin@srdhub.net](mailto:admin@srdhub.net) with any questions, feedback, or suggestions.
 
 If you want to see this kind of SRD made available for your site, please reach out to me - I'll happily help you set up an instance.

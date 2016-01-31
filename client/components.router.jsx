@@ -15,15 +15,7 @@
         '#/reference/:id': {
             state: 'Article',
             isValid: function (name, value) {
-                var segments = value.split('/');
-                for (var i = 0, root = P; i < segments.length; i++) {
-                    if (!root[segments[i]]) {
-                        return false;
-                    } else {
-                        root = root[segments[i]];
-                    }
-                }
-                return true;
+                return true; //!!PATHS[value];
             }
         }
     };

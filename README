@@ -50,21 +50,24 @@ Ensure you have node installed.
 
 Yes. There are no back-end components at all. For this experience to be truely optimal, it needs to be able to run completely offline. In production, the file is served up using nginx: if you want to set that up on your box, feel free, but it is entirely optional.
 
+Additionally, there isn't any checked in examples of an SRD, so what you might want to do is set up nginx on your box with the root pointed at the dist of this project, and the '/srd' aliased to the dist of an example content.
+
 ## Roadmap
 
-1. Search improvements
+0. Enable searching by dynamically indexing in the setup
+
+1. Improve loading experience around supplements, identification of source, etc.
+
+2. Improve customization to make deploying easier
+
+3. Search improvements
 
 Search needs to be snappy and fast.
 
-2. AppCache retirement
+4. AppCache retirement
 
 Service Workers are replacing AppCache. However, Service Workers have much much less support than AppCache, especially in the two target devices of Android and iPhone. Development of service workers is occuring in the service-worker branch.
 
-3. Bigger offline cache
-
-AppCache is limited in size and stability. Use a better offline loader.
-
-4. Selection based on search
 
 ## Contributing
 

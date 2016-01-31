@@ -1,6 +1,6 @@
 $dark-back:     #212024;
 $dark-color:    white;
-$emph1:         #bb0000;
+$emph1:         #0D55A6;
 
 $loaded-transition-time: 0.75s;
 $loaded-transition: width $loaded-transition-time, margin $loaded-transition-time, padding $loaded-transition-time;
@@ -46,10 +46,19 @@ body {
         width: $logo-width;
         margin: 0;
         transition: $loaded-transition;
-        font-size: 15px;
+        font-size: 13px;
         display: inline-block;
         em {
             font-size: 25px;
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-variant: small-caps;
+        }
+        span {
+            text-align: center;
+            display: block;
+            width: 100%;
         }
     }
     
@@ -302,14 +311,14 @@ pre {
 }
 
 .views {
-    font-size: 0;
+    display: flex;
     .option {
+        flex-grow: 1;
+        flex-basis: 0;
         font-size: 12pt;
-        width: 33%;
         border-bottom: 2px solid gray;
         margin-bottom: 2px;
         text-align: center;
-        display:inline-block;
         cursor: pointer;
         &:hover {
             color: $emph1;
@@ -423,5 +432,16 @@ nav .breadcrumb {
     h6 {
         font-size: 10pt;
         margin: 0;
+    }
+}
+
+.policy {
+    .title {
+        h2, a {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0;
+            margin-right: 10px;
+        }
     }
 }

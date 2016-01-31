@@ -143,7 +143,7 @@ gulp.task('partial:client:jsx', ['partial:client:markdown', 'partial:manifest'],
             factory: 'React.createElement'
         }))
         .pipe(concat(CONFIG.outClientJs))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest(CONFIG.outDest));
 });
 gulp.task('watch:client:jsx', ['partial:client:jsx'], function () {

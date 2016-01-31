@@ -1,14 +1,32 @@
 (function (ns) {
-    
-    function getId(path) {
-        var segments = path.split('/');
-        for (var i = 0, root = P; i < segments.length; i++) {
-            root = root[segments[i]];
-        }
-        return root;
+        
+    function makePresentable(key) {
+        return key
+            .replace(/(?:^|\-)[a-z]/gi, function (x) {
+                return ' ' + x[x.length - 1].toUpperCase();
+            })
+            .trim();
     }
     
     ns.Article = React.createClass({
+        componentDidMount: function () {
+            var native = ReactDOM.findDOMNode(this);
+            var embedded = native.querySelectorAll('[data-template]');
+            for (var i = 0; i < embedded.length; i++) {
+                
+                var embed = embedded[i],
+                    templateName = embed.attributes['data-template'].value;
+                TEMPLATES[templateName].template
+                
+                ReactDOM.render(
+                    React.createElement(
+                        TEMPLATES[templateName].template,
+                        {
+                            data: TEMPLATES[templateName].data || [] 
+                        }), 
+                        embed);
+            }
+        },
         render: function () {
             var path = Components.Router.getCurrentState().id
                 segments = path.split('/'),
@@ -19,14 +37,14 @@
             */
             var breadcrumbs = [<a className="breadcrumb" href="#/reference">Reference</a>],
                 partialPath = [];
-            for (var i = 0, root = P; i < segments.length - 1; i++) {
+            for (var i = 0, root = TOC; i < segments.length - 1; i++) {
                 partialPath.push(segments[i]);
                 root = root[segments[i]];
                 var title = '';
-                if (root["_self"]) {
-                    title = SRD[root["_self"]].title;
+                if (root._self) {
+                    title = root._self.title;
                 } else {
-                    title = makeTitle(segments[i]);
+                    title = makePresentable(segments[i]);
                 }
                 breadcrumbs.push(<a className="breadcrumb" href={'#/reference/' + partialPath.join('/')}>{title}</a>);
             }
@@ -35,30 +53,36 @@
             /*
                 Construct child pages
             */
-            var childPages = Object.keys(articleToc)
-                .filter(function (key) {
-                    return key !== "_self";
-                })
-                .map(function (key) {
-                    var title = null;
-                    if (articleToc[key]["_self"]) {
-                        // links to an article
-                        title = SRD[articleToc[key]["_self"]].title;
-                    } else {
-                        title = makeTitle(key);
-                    }
-                    
-                    return {
-                        title: title,
-                        path: '#/reference/' + path + '/' + key
-                    }
-                })
-                .sort(function (a, b) {
-                    return (a.title || '').localeCompare(b.title);
-                })
-                .map(function (kv) {
-                    return <div><a href={kv.path}>{kv.title}</a></div>;
-                });
+            var childPages = [];
+            if (articleToc) {
+                childPages = Object.keys(articleToc)
+                    .filter(function (key) {
+                        return key !== "_self";
+                    })
+                    .map(function (key) {
+                        var title = null;
+                        if (articleToc[key]._self) {
+                            // links to an article
+                            title = articleToc[key]._self.title;
+                        } else {
+                            title = makePresentable(key);
+                        }
+                        
+                        return {
+                            title: title,
+                            path: '#/reference/' + path + '/' + key
+                        }
+                    })
+                    .sort(function (a, b) {
+                        return (a.title || '').localeCompare(b.title);
+                    })
+                    .map(function (kv) {
+                        return <div><a href={kv.path}>{kv.title}</a></div>;
+                    });
+                if (childPages.length > 0) {
+                    childPages = [<h3>Related</h3>].concat(childPages);
+                }
+            }
 
             /*
                 Construct the body of the article
@@ -66,36 +90,14 @@
 
             var bodyChildren = [];
 
-            if (articleToc["_self"]) {
-                var article = SRD[articleToc["_self"]].content;
-            
-                article = article.replace(/<link rel="import" href="([^"]+)">/gi, function (match, capture) {
-                    var segments = capture.split('/');
-                    for (var i = 0, root = P; i < segments.length && root != null; i++) {
-                        root = root[segments[i]];
-                    }
-                    if (root && root["_self"] && SRD[root["_self"]]) {
-                        return '<div class="import-container">' + SRD[root["_self"]].content + '</div>';
-                    } else {
-                        return '<div class="error">ERROR: MISSING ' + capture + '</div>';
-                    }
-                });
+            if (PATHS[path]) {
                 
-                var markup = {
-                    __html: article
-                };
+                bodyChildren.push(PATHS[path].render())
                 
-                bodyChildren.push(<div dangerouslySetInnerHTML={markup}></div>)
-                if (childPages.length > 0) {
-                    bodyChildren.push(<h2>Related</h2>)
-                }
             } else {
                 
                 // get the title for where we are
-                var segments = path.split('/'),
-                    title = segments[segments.length - 1];
-                
-                title = makeTitle(title);
+                var title = makePresentable(segments[segments.length - 1]);
                 
                 bodyChildren.push(<h1>{title}</h1>);
             }
@@ -103,6 +105,7 @@
             /*
                 Return the final assembled article markup
             */
+            
             return <article>
                 <nav>
                     {breadcrumbs}

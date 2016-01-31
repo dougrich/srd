@@ -95,7 +95,7 @@
                 </a>);          
             
             return <div className={"menu" + (this.state.min ? ' min':'')}>
-                <h1 className="logo"><em>5e</em> SRD</h1>
+                <h1 className="logo"><em>oa</em>SRD</h1>
                 {children}
             </div>;
         }

@@ -3,7 +3,7 @@ CACHE MANIFEST
 # {version}
 
 ./client.min.js
-./static/srd.js
+./srd/core.js
 ./static/icomoon.eot
 ./static/icomoon.svg
 ./static/icomoon.ttf
@@ -11,3 +11,6 @@ CACHE MANIFEST
 ./static/react-dom.min.js
 ./static/react.min.js
 ./static/icon.png
+
+NETWORK:
+*
