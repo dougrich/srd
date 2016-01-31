@@ -158,6 +158,7 @@ var Setup = (function () {
                     }
                 });
                 localStorage.setItem('active-sources', JSON.stringify(startingSources));
+                return startingSources;
             })();
         SRD = {};
         activeSources.reduce(function (callback, key) {
