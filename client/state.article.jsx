@@ -32,6 +32,7 @@
                 segments = path.split('/'),
                 articleToc = null;
             
+            var sources = [];
             /*
                 Construct breadcrumbs
             */
@@ -49,6 +50,11 @@
                 breadcrumbs.push(<a className="breadcrumb" href={'#/reference/' + partialPath.join('/')}>{title}</a>);
             }
             articleToc = root[segments[i]];
+            
+            // add source
+            if (SRD[segments[0]]) {
+                sources.push(segments[0]);
+            }
             
             /*
                 Construct child pages
@@ -101,6 +107,19 @@
                 
                 bodyChildren.push(<h1>{title}</h1>);
             }
+                        
+            /*
+                Construct attributions
+            */
+            var attributions = sources
+            .filter(function (v, i) {
+                return sources.indexOf(v) === i;
+            })
+            .map(function (source) {
+                var manifestInfo = MANIFEST[source];
+                console.log(manifestInfo);
+                return <a href={manifestInfo.url}>{manifestInfo.name}</a>;
+            });
             
             /*
                 Return the final assembled article markup
@@ -112,6 +131,10 @@
                 </nav>
                 {bodyChildren}
                 {childPages}
+                <div className="attributions">
+                    Content drawn from 
+                    <span className="list">{attributions}</span>; see <a href="#/policy">policy</a> for licensing
+                </div>
             </article>
         }
     });

@@ -446,4 +446,13 @@ nav .breadcrumb {
     }
 }
 
+.attributions {
+    font-size: 0.75em;
+    margin-top: 25px;
+    text-align: center;
+    .list:before {
+        content: ' ';
+    }
+}
+
 @import 'loading';

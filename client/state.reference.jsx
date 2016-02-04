@@ -119,7 +119,6 @@
                 <div className="views">
                     {viewFactory('Table of Contents')}
                     {viewFactory('Tables')}
-                    {viewFactory('Glossary')}
                 </div>
                 {children}
             </section>;
