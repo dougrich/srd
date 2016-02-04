@@ -163,7 +163,9 @@ var Setup = (function () {
                         startingSources.push(key);
                     }
                 });
-                localStorage.setItem('active-sources', JSON.stringify(startingSources));
+                try {
+                    localStorage.setItem('active-sources', JSON.stringify(startingSources));
+                } catch (e) {}
                 return startingSources;
             })();
         SRD = {};

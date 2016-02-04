@@ -13,6 +13,8 @@ var gulp        = require('gulp'),
     argv        = require('yargs').argv,
     exec        = require('child_process').execSync;
 
+var BRAND = argv.brand;
+
 var CONFIG = {
     outDest: 'dist',
     outTemp: 'temp',
@@ -75,7 +77,12 @@ gulp.task('watch:boot:jsx', ['partial:boot:jsx'], function () {
 
 gulp.task('partial:boot:scss', ['partial:manifest'], function () {
     return gulp.src([CONFIG.boot, CONFIG.globScss].join(CONFIG.seperator))
-        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+        .pipe(sass({
+            outputStyle: 'compressed',
+            includePaths: [
+                ['branding', BRAND].join(CONFIG.seperator)
+            ]
+        }).on('error', sass.logError))
         .pipe(concat(CONFIG.outBootCss))
         .pipe(gulp.dest([CONFIG.outTemp, CONFIG.boot].join(CONFIG.seperator)));
 });
@@ -105,10 +112,17 @@ gulp.task('watch:boot:index', ['partial:boot:index'], function () {
 
 gulp.task('copy:static', ['partial:manifest'],  function () {
     fs.copySync(CONFIG.static, [CONFIG.outDest, CONFIG.static].join(CONFIG.seperator));
+    fs.copySync(
+        ['branding', BRAND, 'icon.png'].join(CONFIG.seperator), 
+        [CONFIG.outDest, CONFIG.static, 'icon.png'].join(CONFIG.seperator));
+    fs.copySync(
+        ['branding', BRAND, 'big-icon.png'].join(CONFIG.seperator), 
+        [CONFIG.outDest, CONFIG.static, 'big-icon.png'].join(CONFIG.seperator));
 });
 gulp.task('watch:static', ['copy:static'], function () {
     gulp.watch([
-        [CONFIG.static, CONFIG.globAll].join(CONFIG.seperator)
+        [CONFIG.static, CONFIG.globAll].join(CONFIG.seperator),
+        ['branding', CONFIG.globAll].join(CONFIG.seperator)
     ], ['copy:static']);
 });
 

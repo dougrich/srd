@@ -1,6 +1,6 @@
 $dark-back:     #111111;
 $dark-color:    white;
-$emph1:         #0D55A6;
+@import 'theme';
 
 $loaded-transition-time: 0.75s;
 $loaded-transition: width $loaded-transition-time, margin $loaded-transition-time, padding $loaded-transition-time;

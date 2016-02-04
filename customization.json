@@ -5,7 +5,7 @@
             "$emph1": "#bb0000"
         }
     },
-    "OA": {
+    "oa": {
         "logo": "<h1 class=\"logo\"><em>oa</em><span>SRD</span></h1>",
         "color": {
             "$emph1": "#0D55A6"

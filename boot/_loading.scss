@@ -25,6 +25,7 @@ $die-speed: 4s;
     margin-top: 200px;
     transition: margin-top $loaded-transition-time;
     transition-timing-function: margin-top ease-out;
+    transform: translateZ(1000px);
     
     .die {
         width: $die-size;
@@ -34,6 +35,8 @@ $die-speed: 4s;
         animation-name: die-spin;
         animation-duration: $die-speed;
         animation-iteration-count: infinite;
+        transform: translateZ(1000px);
+        z-index: 9000;
         
         .face {
             margin: 0;
