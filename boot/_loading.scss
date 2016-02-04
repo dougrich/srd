@@ -1,0 +1,128 @@
+$die-size: 40px;
+$die-speed: 4s;
+
+@keyframes die-spin {
+  0% { transform: translateZ(#{-$die-size/2}) rotateX(-35deg) rotateY(45deg) }
+  25% { transform: translateZ(#{-$die-size/2}) rotateX(-35deg) rotateY(135deg) }
+  50% { transform: translateZ(#{-$die-size/2}) rotateX(-35deg) rotateY(225deg) }
+  75% { transform: translateZ(#{-$die-size/2}) rotateX(-35deg) rotateY(315deg) }
+  100% { transform: translateZ(#{-$die-size/2}) rotateX(-35deg) rotateY(405deg) }
+}
+
+@keyframes face-spin {
+    0% { background-color: gray };
+    25% { background-color: lightgray };
+    50% { background-color: white };
+    75% { background-color: gray };
+    100% { background-color: gray };
+}
+
+.die-container {
+    width: $die-size;
+    height: $die-size;
+    position: relative;
+    margin: auto;
+    margin-top: 200px;
+    transition: margin-top $loaded-transition-time;
+    transition-timing-function: margin-top ease-out;
+    
+    .die {
+        width: $die-size;
+        height: $die-size;
+        position: absolute;
+        transform-style: preserve-3d;
+        animation-name: die-spin;
+        animation-duration: $die-speed;
+        animation-iteration-count: infinite;
+        
+        .face {
+            margin: 0;
+            width: $die-size;
+            height: $die-size;
+            display: block;
+            position: absolute;
+            background-color: gray;
+            animation-name: face-spin;
+            animation-duration: $die-speed;
+            animation-iteration-count: infinite;
+            
+            .d {
+                background-color: black;
+                position: absolute;
+                width: $die-size / 4;
+                height: $die-size / 4;
+                border-radius: 100%;
+            }
+            
+            &.top { 
+                transform: rotateX(90deg) translateZ(#{$die-size/2});
+                animation-name: null;
+                background-color: white;
+                
+                .d1 { top: 8%; left: 8%; }
+                .d2 { top: calc(50% - #{$die-size / 8}); left: 8%; }
+                .d3 { bottom: 8%; left: 8%; }
+                .d4 { top: 8%; right: 8%; }
+                .d5 { top: calc(50% - #{$die-size / 8}); right: 8%; }
+                .d6 { bottom: 8%; right: 8%; }
+            }
+            &.front {
+                transform: rotateY(0deg) translateZ(#{$die-size/2});
+                animation-delay: 3s;
+                .d1 { top: 12%; left: 12%; }
+                .d2 { bottom: 12%; right: 12%; }
+            }
+            &.back { 
+                transform: rotateY(180deg) translateZ(#{$die-size/2});
+                animation-delay: 1s;
+                .d1 { top: 12%; left: 12%; }
+                .d2 { top: calc(50% - #{$die-size / 8}); left: calc(50% - #{$die-size / 8}); }
+                .d3 { bottom: 12%; right: 12%; }
+            }
+            &.left {
+                transform: rotateY(90deg) translateZ(#{$die-size/2});
+                animation-delay: 2s;
+                .d1 { top: 8%; left: 8%; }
+                .d2 { bottom: 8%; left: 8%; }
+                .d3 { top: 8%; right: 8%; }
+                .d4 { bottom: 8%; right: 8%; }
+            }
+            &.right {
+                transform: rotateY(-90deg) translateZ(#{$die-size/2});
+                animation-delay: 0s;
+                .d1 { top: 8%; left: 8%; }
+                .d2 { bottom: 8%; left: 8%; }
+                .d3 { top: 8%; right: 8%; }
+                .d4 { bottom: 8%; right: 8%; }
+                .d5 { top: calc(50% - #{$die-size / 8}); left: calc(50% - #{$die-size / 8}); }
+            }
+            &.bottom {
+                transform: rotateX(-90deg) translateZ(#{$die-size/2});
+                animation-name: null;
+            }
+        }
+    }
+}
+
+#loading-screen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transition: opacity, background;
+    transition-duration: $loaded-transition-time;
+    opacity: 1;
+    pointer-events: none;
+    &.hidden {
+        opacity: 0;
+        .die-container {
+            margin-top: 150px;
+        }
+    }
+    &.overlay {
+        background-color: rgba(black,0.9);
+        opacity: 1;
+        pointer-events: all;
+    }
+}

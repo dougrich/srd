@@ -6,6 +6,8 @@ var TEMPLATES = null;
 
 var SRD = null;
 
+var INDEX = null;
+
 var SOURCE = {};
 
 var KEYS = {
@@ -142,6 +144,10 @@ var Setup = (function () {
                     }
                 }
             });
+    }
+    
+    function SetupIndex() {
+        INDEX = {};
     }
 
     /*

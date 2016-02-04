@@ -15,6 +15,7 @@
 }, function () {
     Setup(function () {
         ReactDOM.render(React.createElement(App), document.querySelector('[root]'));
+        document.getElementById('loading-screen').className = 'hidden';
     });
 })();
 

@@ -1,78 +1,131 @@
 (function (ns) {
     
-    function findNearest(key, count) {
-        key = key
-            .toLowerCase()
-            .trim()
-            .replace(/^(the|a|an|it|of)\W/gi, '');
-        var descent = [I.key], foundDict = {};
-        var phrase = '';
-        // descend first
-        for (var i = 0; i < key.length; i++) {
-            if (!descent[descent.length - 1][key[i]]) {
-                break;
-            } else {
-                descent.push(descent[descent.length - 1][key[i]]);
-                phrase += key[i];
+    function autocomplete(word, count) {
+        var root = INDEX.t,
+            size = 1,
+            originalWord = word;
+        while(root && word.length && size <= word.length) {
+            var key = word.substr(0, size);
+            if (root[key]) {
+                root = root[key];
+                word = word.substring(size);
+                size = 0;
+            }
+            size++;
+        }
+        
+        if (!root) {
+            // nothing found
+            return [];
+        }
+        
+        if (size === word.length + 1 && word) {
+            // possible partial match
+            var continues = Object.keys(root), found = false;
+            for (var i = 0; i < continues.length && !found; i++) {
+                if (continues[i].indexOf(word) === 0) {
+                    root = root[continues[i]];
+                    originalWord += continues[i].replace(word, '');
+                    found = true;
+                }
+            }
+            if (!found) {
+                return [];
             }
         }
         
-        var next = [{
-            phrase: phrase,
-            node: descent.pop()
-        }];
-        // execute a breadth-first search away from our current node
-        while (next.length && Object.keys(foundDict).length < count) {
-            var nextNext = [];
-            while (next.length && Object.keys(foundDict).length < count) {
-                var root = next.pop();
-                if (root.node['_self']) {
-                    foundDict[root.phrase] = root.node['_self'];
-                }
-                var letters = Object.keys(root.node);
-                for (var i = 0; i < letters.length; i++) {
-                    if (letters[i] === '_self') continue;
-                    if (descent.indexOf(root.node[letters[i]]) !== -1) continue;
-                    nextNext.push({
-                        phrase: root.phrase + letters[i],
-                        node: root.node[letters[i]]
-                    });
-                }
+        var searchable = [],
+            found = {};
+            
+        searchable.push({
+            node: root,
+            word: originalWord
+        });
+        while (searchable.length && Object.keys(found).length < count) {
+            var next = searchable.pop();
+            if (next.node.$) {
+                // add to found
+                next.node.$.forEach(function (i) {
+                    if (Object.keys(found) === count) return;
+                    var word = INDEX.w[i.w],
+                        source = INDEX.s[i.s];
+                    if (!SRD[source]) return;
+                    (found[word] || (found[word] = [])).push({
+                        source: source,
+                        path: INDEX.p[i.p],
+                        template: INDEX.p[i.t],
+                        i: i.i,
+                        j: i.j
+                    })
+                });
             }
-            next = nextNext;
+            var children = Object.keys(next.node);
+            for (var i = 0; i < children.length; i++) {
+                if (children[i] === '$') continue;
+                searchable.push({
+                    word: next.word + children[i],
+                    node: next.node[children[i]]
+                });
+            }
         }
         
-        return foundDict;
+        return found;
     }
     
     ns.Search = React.createClass({
         getInitialState: function () {
-            return { results: {} };
+            return { term: null, results: {} };
         },
         onKeyUp: function () {
             // find the nearest 5 and log to console
-            if (this.refs.searchBar.value.length >= 2) {
-                this.setState({ results: findNearest(this.refs.searchBar.value, 5) });
+            if (this.refs.searchBar.value.length >= 1) {
+                this.setState({ 
+                    term: this.refs.searchBar.value, 
+                    results: autocomplete(this.refs.searchBar.value, 10) 
+                });
             } else if (this.state.results !== {}) {
-                this.setState({ results: {} });
+                this.setState({ term: null, results: {} });
             }
         },
         render: function () {
             var children = [],
                 autoComplete = Object.keys(this.state.results);
             if (autoComplete.length !== 0) {
-                var results = this.state.results;
+                var results = this.state.results,
+                    term = this.state.term;
                 children = autoComplete.map(function (key) {
+                    var markedKey = {
+                        __html: key.replace(term, '<em>' + term + '</em>')
+                    };
                     
+                    // pull out templated content
+                    var templated = {};
                     return <div>
-                        <h3>{key}</h3>
-                        <div className="links">
-                        {results[key].map(function (article) {
-                            return <a href={'#/reference/' + SRD[article].path}>{SRD[article].title}</a>;
+                        <h3 dangerouslySetInnerHTML={markedKey}></h3>
+                        {results[key].map(function (find) {
+                            if (find.template && !find.i) {
+                                // entire template
+                                return <a href={"#/reference/" + find.template}>{TEMPLATES[find.template].template.prototype.title}</a>
+                            } else if (find.template) {
+                                // template row
+                                var data = (templated[find.template] || (templated[find.template] = []));
+                                // go find the row in question
+                                data.push(SRD[find.source].data[find.template][find.i - 1]);
+                            } else {
+                                return <a href={"#/reference/" + find.source + "/" + find.path}>{SRD[find.source].articles[SRD[find.source].lookup[find.path]].title}</a>
+                            }
                         })}
-                        </div>
+                        {Object.keys(templated).map(function (template) {
+                            return React.createElement(
+                                TEMPLATES[template].template,
+                                {
+                                    data: templated[template]
+                                });
+                        })}
                     </div>;
                 });
+            } else if (this.state.term) {
+                children.push(<em>No Results</em>);
             }
             return <div className="centered search">
                 <div className="title">

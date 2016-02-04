@@ -11,8 +11,17 @@
             });
             localStorage.setItem('active-sources', JSON.stringify(currentlySelectedSrcs));
             CleanSlate();
+            document.getElementById('loading-screen').className = 'overlay';
+            var start = Date.now();
             Setup(function () {
-                console.log('yo');
+                var wait = 750 - Date.now() + start;
+                if (wait > 0) {
+                    setTimeout(function () {
+                        document.getElementById('loading-screen').className = 'hidden';
+                    }, wait);
+                } else {
+                    document.getElementById('loading-screen').className = 'hidden';
+                }
             });
         },
         componentDidMount: function () {

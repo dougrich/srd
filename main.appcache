@@ -11,6 +11,8 @@ CACHE MANIFEST
 ./static/react-dom.min.js
 ./static/react.min.js
 ./static/icon.png
+./static/offline-loader.min.js
+./static/offline-async-worker.min.js
 
 NETWORK:
 *
