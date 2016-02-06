@@ -3,6 +3,10 @@
         render: function () {
             var licenses = [
                 {
+                    name: "Contributions",
+                    body: DOCUMENTS['docs/CONTRIBUTIONS']
+                },
+                {
                     name: "Code",
                     link: 'https://srdhub.net',
                     body: DOCUMENTS['docs/LICENSE']
@@ -32,10 +36,18 @@
                     var markup = {
                         __html: license.body
                     };
+                    
+                    var title = [
+                        <h2>{license.name}</h2>
+                    ];
+                    
+                    if (license.link) {
+                        title.push(<a href={license.link}>Website</a>);
+                    }
+                    
                     return <div>
                         <div className="title">
-                            <h2>{license.name}</h2>
-                            <a href={license.link}>Website</a>
+                            {title}
                         </div>
                         <pre dangerouslySetInnerHTML={markup}></pre>
                     </div>

@@ -8,12 +8,8 @@ CACHE MANIFEST
 ./static/icomoon.svg
 ./static/icomoon.ttf
 ./static/icomoon.woff
-./static/react-dom.min.js
-./static/react.min.js
 ./static/icon.png
 ./static/big-icon.png
-./static/offline-loader.min.js
-./static/offline-async-worker.min.js
 
 NETWORK:
 *

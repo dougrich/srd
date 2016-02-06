@@ -1,0 +1,2 @@
+VitusVenture, for his invaluable work on getting the 5e SRD content sorted out.
+https://github.com/vitusventure/5thSRD

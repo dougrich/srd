@@ -94,8 +94,14 @@
                     <span className="label">{label}</span>
                 </a>);          
             
+            var logoBody = {
+                __html: LOGO
+            };
+            
+            console.log(logoBody);
+            
             return <div className={"menu" + (this.state.min ? ' min':'')}>
-                <h1 className="logo"><em>oa</em>SRD</h1>
+                <h1 className="logo" dangerouslySetInnerHTML={logoBody}></h1>
                 {children}
             </div>;
         }

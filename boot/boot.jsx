@@ -1,9 +1,6 @@
 // async load the right files
 [
-    'static/react.min.js',
-    'static/react-dom.min.js',
     'client.min.js',
-    'static/offline-loader.min.js',
     'srd/core.js'
 ].reduceRight(function (callback, next) {
     return function () {

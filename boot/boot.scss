@@ -381,17 +381,23 @@ h3, h5 {
     }
 }
 
-table {
-    border-collapse: collapse;
-    td, th {
-        padding: 3px;
-    }
-    thead, thead th, thead td {
-        background-color: #bbb;
-        text-align: center;
-    }
-    tbody tr:nth-child(2n+1) {
-        background-color: #eee;
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        td, th {
+            padding: 3px;
+        }
+        thead, thead th, thead td {
+            background-color: #bbb;
+            text-align: center;
+        }
+        tbody tr:nth-child(2n+1) {
+            background-color: #eee;
+        }
     }
 }
 

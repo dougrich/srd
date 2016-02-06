@@ -65,7 +65,9 @@ var Setup = (function () {
                 
                 return <div>
                     <h5>{TEMPLATES[key].template.prototype.title || makePresentable(key)}</h5>
-                    {table}
+                    <div className="table-container">
+                        {table}
+                    </div>
                 </div>;
             }
         }

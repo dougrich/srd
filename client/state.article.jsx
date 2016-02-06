@@ -19,11 +19,11 @@
                 TEMPLATES[templateName].template
                 
                 ReactDOM.render(
-                    React.createElement(
+                    <div className="table-container">{React.createElement(
                         TEMPLATES[templateName].template,
                         {
                             data: TEMPLATES[templateName].data || [] 
-                        }), 
+                        })}</div>, 
                         embed);
             }
         },

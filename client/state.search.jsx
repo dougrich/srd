@@ -80,8 +80,8 @@
             // find the nearest 5 and log to console
             if (this.refs.searchBar.value.length >= 1) {
                 this.setState({ 
-                    term: this.refs.searchBar.value, 
-                    results: autocomplete(this.refs.searchBar.value, 10) 
+                    term: this.refs.searchBar.value.toLowerCase(), 
+                    results: autocomplete(this.refs.searchBar.value.toLowerCase(), 10) 
                 });
             } else if (this.state.results !== {}) {
                 this.setState({ term: null, results: {} });
@@ -107,20 +107,27 @@
                                 // entire template
                                 return <a href={"#/reference/" + find.template}>{TEMPLATES[find.template].template.prototype.title}</a>
                             } else if (find.template) {
-                                // template row
-                                var data = (templated[find.template] || (templated[find.template] = []));
                                 // go find the row in question
-                                data.push(SRD[find.source].data[find.template][find.i - 1]);
+                                var datum = SRD[find.source].data[find.template][find.i - 1];
+                                if (datum) {
+                                    // template row
+                                    var data = (templated[find.template] || (templated[find.template] = []));
+                                    data.push(datum);
+                                } else {
+                                    // referencing the entire table
+                                    return <a href={"#/reference/" + find.template}>{TEMPLATES[find.template].template.prototype.title}</a>
+                                }
                             } else {
                                 return <a href={"#/reference/" + find.source + "/" + find.path}>{SRD[find.source].articles[SRD[find.source].lookup[find.path]].title}</a>
                             }
                         })}
                         {Object.keys(templated).map(function (template) {
-                            return React.createElement(
+                            return <div className="table-container">
+                            {React.createElement(
                                 TEMPLATES[template].template,
                                 {
                                     data: templated[template]
-                                });
+                                })}</div>;
                         })}
                     </div>;
                 });

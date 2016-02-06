@@ -13,13 +13,14 @@ var gulp        = require('gulp'),
     argv        = require('yargs').argv,
     exec        = require('child_process').execSync;
 
-var BRAND = argv.brand;
+var BRAND = argv.brand || '5e';
 
 var CONFIG = {
     outDest: 'dist',
     outTemp: 'temp',
     outBootJs: 'boot.min.js',
     outClientJs: 'client.min.js',
+    outVendorJs: 'vendor.min.js',
     outBootCss: 'boot.min.css',
     outIndex: 'index.html',
     outDocs: 'docs.js',
@@ -30,6 +31,7 @@ var CONFIG = {
     
     boot: 'boot',
     client: 'client',
+    external: 'external',
     static: 'static',
     
     globAll: '**/*',
@@ -96,6 +98,8 @@ gulp.task('partial:boot:index', ['partial:boot:jsx', 'partial:boot:scss', 'parti
         data = {
             js: fs.readFileSync([CONFIG.outTemp, CONFIG.boot, CONFIG.outBootJs].join(CONFIG.seperator)),
             css: fs.readFileSync([CONFIG.outTemp, CONFIG.boot, CONFIG.outBootCss].join(CONFIG.seperator)),
+            logo: fs.readFileSync(['branding', BRAND, 'logo.html'].join(CONFIG.seperator)),
+            title: (BRAND + ' SRD').toUpperCase()
         },
         result = template(data);
         
@@ -157,23 +161,47 @@ gulp.task('partial:client:jsx', ['partial:client:markdown', 'partial:manifest'],
             factory: 'React.createElement'
         }))
         .pipe(concat(CONFIG.outClientJs))
-        //.pipe(uglify())
-        .pipe(gulp.dest(CONFIG.outDest));
+        .pipe(uglify())
+        .pipe(gulp.dest(CONFIG.outTemp));
 });
-gulp.task('watch:client:jsx', ['partial:client:jsx'], function () {
+
+gulp.task('partial:client', ['partial:client:jsx'], function () {
+    
+    var file = [
+        [CONFIG.external, 'offline.min.js'],
+        [CONFIG.external, 'react.min.js'],
+        [CONFIG.external, 'react-dom.min.js'],
+        [CONFIG.outTemp, CONFIG.outClientJs],
+    ].reduce(function (body, filenameSegements) {
+        return body + fs.readFileSync(filenameSegements.join(CONFIG.seperator), 'utf8')
+    }, '');
+    
+    var logo =
+        'var LOGO = ' + 
+        JSON.stringify(fs.readFileSync(['branding', BRAND, 'logo.html'].join(CONFIG.seperator), 'utf8')) +
+        ';';
+    
+    fs.writeFileSync(
+        [CONFIG.outDest, CONFIG.outClientJs].join(CONFIG.seperator),
+        logo + file,
+        'utf8'
+    )
+});
+
+gulp.task('watch:client', ['partial:client'], function () {
     gulp.watch([
         [CONFIG.client, CONFIG.globJsx].join(CONFIG.seperator),
         [CONFIG.client, CONFIG.globMd].join(CONFIG.seperator),
         [CONFIG.client, CONFIG.globTxt].join(CONFIG.seperator)
-    ], ['partial:client:jsx']);
+    ], ['partial:client']);
 });
 
 
 
-gulp.task('develop', ['watch:boot:index', 'watch:client:jsx', 'watch:static']);
+gulp.task('develop', ['watch:boot:index', 'watch:client', 'watch:static']);
 
-gulp.task('build', ['partial:boot:index', 'partial:client:jsx', 'copy:static']);
+gulp.task('build', ['partial:boot:index', 'partial:client', 'copy:static']);
 
 gulp.task('deploy', ['clean', 'build'], function () {
-    exec('gcloud compute copy-files --zone ' + argv.zone + ' ./dist/* ' + argv.server + ':/var/www/srd');
+    exec('gcloud compute copy-files --zone us-central1-a ./dist/* ' + argv.server + ':/var/www/' + argv.brand + '-srd');
 })
