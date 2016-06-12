@@ -58,7 +58,7 @@
             })
             .map(function (source) {
                 return <li>
-                    <h3><a href={"#/reference/" + source.key}>{source.value.name}</a></h3>
+                    <h4><a href={"#/reference/" + source.key}>{source.value.name}</a></h4>
                     {renderToc([source.key], TOC[source.key])}
                 </li>;
             });
@@ -70,7 +70,7 @@
         return <div className="toc">
             <ul>
                 <li>
-                    <h3>Tables</h3>
+                    <h4>Tables</h4>
                     <ul>
                     {Object.keys(TEMPLATES)
                         .map(function (key) {
@@ -105,13 +105,13 @@
             
             var that = this;
             function viewFactory(view) {
-                return <div 
+                return <h5 
                     className={"option" + (that.state.view === VIEWS[view] ? ' active' : '')}
                     onClick={function () {
                         that.setState({view: VIEWS[view]});
                     }}>
                     {view}
-                </div>;
+                </h5>;
             }
             
             return <section>

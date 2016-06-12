@@ -1,0 +1,129 @@
+.menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-top: 0;
+    padding-top: 75px;
+    padding-bottom: 75px;
+    background-color: $dark-back;
+    text-align: center;
+    
+    transition: $loaded-transition;
+    .logo {
+        color: $dark-color;
+        font-weight: $logo-weight;
+        text-shadow: $menu-shadow;
+        width: $logo-width;
+        margin: 0;
+        transition: $loaded-transition;
+        font-size: 13px;
+        display: inline-block;
+        em {
+            font-size: 25px;
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-variant: small-caps;
+        }
+        span {
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+    }
+    
+    .entry {
+        color: white;
+        text-align: left;
+        transform-origin: left center;
+        transition: transform 0.15s, opacity $loaded-transition-time;
+        opacity: 0;
+        white-space: nowrap;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+        
+        &.connected {
+            color: green !important;
+        }
+        &.pending {
+            color: yellow !important;
+        }
+        &.offline {
+            opacity: 0.25 !important;
+            color: white !important;
+        }
+        
+        &:not(a) {
+            cursor: default;
+        }
+        
+        &.active {
+            background-color: $emph1;
+            margin-right: -$fold-size;
+            &:hover {
+                color: $dark-back;
+            }
+            &:after {
+                width: $fold-size;
+                height: $fold-size;
+                position: absolute;
+                right: 0px;
+                bottom: -$fold-size;
+                content: '';
+                display: block;
+                box-sizing: border-box;
+                border-top: $fold-size / 2 solid darken($emph1, 15%);
+                border-left: $fold-size / 2 solid darken($emph1, 15%);
+                border-right: $fold-size / 2 solid transparent;
+                border-bottom: $fold-size / 2 solid transparent;
+            }
+        }
+        
+        i {
+            width: 50px;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 0px;
+            text-align: center;
+            vertical-align: middle;
+            transition: color 0.15s;
+        }
+        .label {
+            font-size: 16px;
+            vertical-align: middle;
+            transition: opacity $loaded-transition-time, width $loaded-transition-time;
+            overflow: hidden;
+            display: inline-block;
+            width: 0;
+            opacity: 0;
+        }
+        
+        &:hover {
+            color: $emph1;
+            font-weight: 600;
+        }
+    }
+    
+    &.min {
+        width: 50px;
+        padding-top: 5px;
+        .entry {
+            opacity: 1;
+        }
+    }
+}
+
+@media (min-device-width: 600px) {
+    .menu.min:hover {
+        width: 200px;
+        .label {
+            width: calc(100% - 50px);
+            opacity: 1;
+        }
+    }
+}

@@ -13,7 +13,7 @@ var gulp        = require('gulp'),
     argv        = require('yargs').argv,
     exec        = require('child_process').execSync;
 
-var BRAND = argv.brand || '5e';
+var BRAND = argv.brand || 'oa';
 
 var CONFIG = {
     outDest: 'dist',

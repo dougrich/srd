@@ -47,8 +47,10 @@
     });
     appCache.addEventListener('updateready', function () {
         wrapper.CURRENT = wrapper.STATUS.UPDATEREADY;
-        callbacks.map(function (cb) { return cb(wrapper.CURRENT); });
-        callbacks = [];
+        offline.clear(function () {
+            callbacks.map(function (cb) { return cb(wrapper.CURRENT); });
+            callbacks = [];
+        });
     });
     appCache.addEventListener('cached', function () {
         wrapper.CURRENT = wrapper.STATUS.CACHED;

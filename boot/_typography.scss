@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url('static/OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('static/OpenSans-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('static/RobotoSlab-Regular.ttf');
+}
+
+article, section {
+    font-family: 'Open Sans';
+    font-size: 12pt;
+    
+    p, li {
+        text-align: justify;
+    }
+    
+    h1 { font-size: 3em; }
+    h2 { font-size: 2.5em; }
+    h3 { font-size: 2em; }
+    h4 { font-size: 1.5em; }
+    h5 { font-size: 1.25em; }
+    h6 { 
+        font-size: 1.1em;
+        margin: 0;
+    }
+    
+    .aside {
+        font-size: 0.9em;
+    }
+}
+
+body {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, th {
+    font-family: 'Roboto Slab';
+}
+
+nav {
+    font-family: 'Roboto Slab';
+    font-size: 1em;
+    .breadcrumb {
+        vertical-align: middle;
+        &:not(:first-child):before {
+            content: '>';
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 0.3em;
+            margin-right: 0.3em;
+            vertical-align: middle;
+        }
+        &:not(:last-child):after {
+            content: '>';
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 0.3em;
+            margin-left: 0.3em;
+            vertical-align: middle;
+        }
+    }
+}
+
+.attributions {
+    font-size: 0.75em;
+    text-align: center;
+}

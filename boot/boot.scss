@@ -17,143 +17,13 @@ html, body {
 
 body {
     background-color: white;
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     margin: 0;
     margin-left: 50px;
     padding: 25px;
     box-sizing: border-box;
 }
 
-.menu {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    margin-top: 0;
-    padding-top: 75px;
-    padding-bottom: 75px;
-    background-color: $dark-back;
-    text-align: center;
-    box-shadow: $menu-shadow;
-    
-    transition: $loaded-transition;
-    .logo {
-        color: $dark-color;
-        font-weight: $logo-weight;
-        text-shadow: $menu-shadow;
-        width: $logo-width;
-        margin: 0;
-        transition: $loaded-transition;
-        font-size: 13px;
-        display: inline-block;
-        em {
-            font-size: 25px;
-            display: block;
-            text-align: center;
-            width: 100%;
-            font-variant: small-caps;
-        }
-        span {
-            text-align: center;
-            display: block;
-            width: 100%;
-        }
-    }
-    
-    .entry {
-        color: white;
-        text-align: left;
-        transform-origin: left center;
-        transition: transform 0.15s, opacity $loaded-transition-time;
-        opacity: 0;
-        white-space: nowrap;
-        display: block;
-        text-decoration: none;
-        cursor: pointer;
-        position: relative;
-        
-        &.connected {
-            color: green !important;
-        }
-        &.pending {
-            color: yellow !important;
-        }
-        &.offline {
-            opacity: 0.25 !important;
-            color: white !important;
-        }
-        
-        &:not(a) {
-            cursor: default;
-        }
-        
-        &.active {
-            background-color: $emph1;
-            margin-right: -$fold-size;
-            &:hover {
-                color: $dark-back;
-            }
-            &:after {
-                width: $fold-size;
-                height: $fold-size;
-                position: absolute;
-                right: 0px;
-                bottom: -$fold-size;
-                content: '';
-                display: block;
-                box-sizing: border-box;
-                border-top: $fold-size / 2 solid darken($emph1, 15%);
-                border-left: $fold-size / 2 solid darken($emph1, 15%);
-                border-right: $fold-size / 2 solid transparent;
-                border-bottom: $fold-size / 2 solid transparent;
-            }
-        }
-        
-        i {
-            width: 50px;
-            display: inline-block;
-            font-size: 20px;
-            margin: 10px 0px;
-            text-align: center;
-            vertical-align: middle;
-            transition: color 0.15s;
-        }
-        .label {
-            font-size: 16px;
-            vertical-align: middle;
-            transition: opacity $loaded-transition-time, width $loaded-transition-time;
-            overflow: hidden;
-            display: inline-block;
-            width: 0;
-            opacity: 0;
-        }
-        
-        &:hover {
-            color: $emph1;
-            font-weight: 600;
-        }
-    }
-    
-    &.min {
-        width: 50px;
-        padding-top: 5px;
-        .entry {
-            opacity: 1;
-        }
-    }
-}
 
-@media (min-device-width: 600px) {
-    .menu.min:hover {
-        width: 200px;
-        .label {
-            width: calc(100% - 50px);
-            opacity: 1;
-        }
-    }
-}
 
 .centered {
     margin: auto;
@@ -179,127 +49,7 @@ em {
     color: $emph1;
 }
 
-@font-face {
-    font-family: 'icomoon';
-    src:    url('static/icomoon.eot');
-    src:    url('static/icomoon.eot') format('embedded-opentype'),
-        url('static/icomoon.ttf') format('truetype'),
-        url('static/icomoon.woff') format('woff'),
-        url('static/icomoon.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
-[class^="icon-"], [class*=" icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-@-webkit-keyframes spin1 {
-0% { -webkit-transform: rotate(0deg);}
-100% { -webkit-transform: rotate(360deg);}
-}
-@-moz-keyframes spin1 {
-0% { -moz-transform: rotate(0deg);}
-100% { -moz-transform: rotate(360deg);}
-}
-@-o-keyframes spin1 {
-0% { -o-transform: rotate(0deg);}
-100% { -o-transform: rotate(360deg);}
-}
-@-ms-keyframes spin1 {
-0% { -ms-transform: rotate(0deg);}
-100% { -ms-transform: rotate(360deg);}
-}
-@keyframes spin1 {
-0% { transform: rotate(0deg);}
-100% { transform: rotate(360deg);}
-} 
-
-.icon-connection:before {
-    content: "\e91b";
-}
-.icon-books:before {
-    content: "\e920";
-}
-.icon-users:before {
-    content: "\e972";
-}
-.icon-spinner8:before {
-    content: "\e981";
-    -webkit-animation: spin1 1s infinite linear;
-    -moz-animation: spin1 1s infinite linear;
-    -o-animation: spin1 1s infinite linear;
-    -ms-animation: spin1 1s infinite linear;
-    animation: spin1 1s infinite linear;
-}
-.icon-search:before {
-    content: "\e986";
-}
-.icon-hammer2:before {
-    content: "\e9a8";
-}
-.icon-sphere:before {
-    content: "\e9c9";
-}
-
-.icon-cog:before {
-    content: "\e994";
-}
-
-.icon-bookmark:before {
-    content: "\e9d2";
-}
-.icon-bookmarks:before {
-    content: "\e9d3";
-}
-
-article, section {
-    max-width: 600px;
-    text-align: justify;
-    margin: auto;
-    padding: 20px 0px;
-}
-
-.import-container {
-    width: 100%;
-    overflow-x: auto;
-}
-/*
-@media (min-width: 800px) {
-    .import-container {
-        width: 120%;
-        margin-left: -10%;
-    }
-}
-
-@media (min-width: 1000px) {
-    .import-container {
-        width: 150%;
-        margin-left: -25%;
-    }
-}
-
-@media (min-width: 1200px) {
-    .import-container {
-        width: 180%;
-        margin-left: -40%;
-    }
-}*/
-
-section {
-    max-width: 1000px;
-}
 
 pre {
     overflow-x: scroll;
@@ -315,11 +65,11 @@ pre {
     .option {
         flex-grow: 1;
         flex-basis: 0;
-        font-size: 12pt;
         border-bottom: 2px solid gray;
         margin-bottom: 2px;
         text-align: center;
         cursor: pointer;
+        display: block;
         &:hover {
             color: $emph1;
         }
@@ -344,8 +94,6 @@ pre {
 
 .links {
     padding-left: 10px;
-    
-    
 }
 
 a {
@@ -361,7 +109,7 @@ a {
 }
 
     
-h3, h5 {
+h3, h4, h5 {
     margin: 0;
 }
 
@@ -381,41 +129,12 @@ h3, h5 {
     }
 }
 
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-    position: relative;
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        td, th {
-            padding: 3px;
-        }
-        thead, thead th, thead td {
-            background-color: #bbb;
-            text-align: center;
-        }
-        tbody tr:nth-child(2n+1) {
-            background-color: #eee;
-        }
-    }
-}
+
 
 .error {
     background-color: red;
     font-weight: 900;
     padding: 40px;
-}
-
-nav .breadcrumb {
-    &:not(:last-child):after {
-        content: ' > ';
-    }
-}
-
-.attribution {
-    width: 100%;
-    text-align: center;
 }
 
 .toc {
@@ -430,17 +149,6 @@ nav .breadcrumb {
     }
 }
 
-.aside {
-    background-color: lightgray;
-    font-size: 10pt;
-    padding: 10px;
-    margin: 10px 0px;
-    h6 {
-        font-size: 10pt;
-        margin: 0;
-    }
-}
-
 .policy {
     .title {
         h2, a {
@@ -452,13 +160,8 @@ nav .breadcrumb {
     }
 }
 
-.attributions {
-    font-size: 0.75em;
-    margin-top: 25px;
-    text-align: center;
-    .list:before {
-        content: ' ';
-    }
-}
-
+@import 'menu';
+@import 'article';
+@import 'typography';
+@import 'icons';
 @import 'loading';

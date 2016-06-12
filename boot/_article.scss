@@ -1,0 +1,74 @@
+$article-width:     600px;
+$section-width:     1000px;
+$section-padding:   20px 0px;
+$aside-padding:     30px;
+$vp0:               860px;
+$vp1:               1040px;
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    td, th {
+        padding: 3px;
+    }
+    thead, thead th, thead td {
+        background-color: transparent;
+        border-bottom: 1px solid black;
+        text-align: center;
+    }
+    tbody tr:hover {
+        font-weight: bold;
+        background-color: #eee;
+    }
+    * {
+        cursor: default;
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+
+    
+    @media (min-width: $vp0) {
+        width: 130%;
+        margin-left: -15%;
+    }
+    
+    @media (min-width: $vp1) {
+        width: 160%;
+        margin-left: -30%;
+    }
+}
+.attributions {
+    margin-top: 25px;
+    .list:before {
+        content: ' ';
+    }
+}
+.aside {
+    background-color: lightgray;
+    padding: $aside-padding;
+    margin: 10px 0px;
+    @media (min-width: $article-width) {
+        float: right;
+        width: calc(50% - 40px);
+        margin-left: 20px;
+    }
+    
+    @media (min-width: $vp0) {
+        margin-right: -15%;
+    }
+    
+    @media (min-width: $vp1) {
+        margin-right: -30%;
+    }
+}
+
+article, section {
+    margin: auto;
+    padding: $section-padding;
+}
+article { max-width: $article-width; }
+section { max-width: $section-width; }
